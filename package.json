@@ -1,0 +1,41 @@
+{
+  "name": "react-simple-app",
+  "version": "1.0.0",
+  "description": "React Simple App",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "concurrently \"npm run dev-server\" \"npm run dev\"",
+    "server": "live-server public/",
+    "build": "webpack",
+    "dev-server": "webpack-dev-server --watch",
+    "dev": "node server/app.js"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "babel-cli": "6.24.1",
+    "babel-core": "6.25.0",
+    "babel-loader": "7.1.1",
+    "babel-preset-env": "1.5.2",
+    "babel-preset-react": "6.24.1",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "express-promise-router": "^3.0.1",
+    "helmet": "^3.10.0",
+    "joi": "^13.1.2",
+    "live-server": "^1.2.0",
+    "mongoose": "^5.0.3",
+    "morgan": "^1.9.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router": "^4.2.0",
+    "webpack": "3.1.0",
+    "webpack-dev-server": "2.5.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "concurrently": "^3.5.1",
+    "eslint": "^4.17.0",
+    "eslint-loader": "^1.9.0"
+  }
+}
