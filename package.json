@@ -9,7 +9,7 @@
     "server": "live-server public/",
     "build": "webpack",
     "dev-server": "webpack -d && webpack-dev-server --content-base src/ --inline --hot --port 8080 --history-api-fallback --watch",
-    "dev": "node server/app.js"
+    "dev": "nodemon server/app.js"
   },
   "dependencies": {
     "axios": "^0.17.1",

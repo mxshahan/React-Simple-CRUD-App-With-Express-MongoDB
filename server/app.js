@@ -5,22 +5,14 @@ const helmet = require('helmet');
 require('./db/mongoose');
 const todoRouter = require('./routes/Todo');
 const cors = require('cors');
-
 const app = express();
 
-const corsConfig = {
-    origin: 'http://localhost:8080',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-app.use(cors(corsConfig));
+
+//middleware
+app.use(cors())
 app.use(bodyParser.json());
-//Helmet helps you secure your Express apps by
-// setting various HTTP headers. It's not a silver bullet, but it can help!
 app.use(helmet());
-// app.use(require('compression'));
 app.use(morgan('dev'));
-
-
 app.use('/api', todoRouter);
 
 

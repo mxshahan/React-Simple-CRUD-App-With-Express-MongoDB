@@ -7,24 +7,27 @@ export default class TodoList extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            option: [this.handleData()]
+            option : []
         };
         this.onSubmitForm = this.onSubmitForm.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.handleData = this.handleData.bind(this);
-    }    
+    } 
+
+    componentWillMount(){
+        this.handleData();
+    }
+
 
     onSubmitForm(option){
+        console.log(this.state.option)
         if(!option){
             return 'Please Enter a Valid Data'
-        }
-        else if(this.state.option.indexOf(option)>-1){
-            return 'Option is Already Exists'
         }
         
         axios.post('http://localhost:3000/api/', {item: option})
         .then((response)=>{
-            console.log(response);            
+            this.handleData();          
         })
         .catch(error => {
             if (!error.response) {
@@ -33,31 +36,15 @@ export default class TodoList extends React.Component{
             } else {
                 this.errorStatus = error.response.data.message;
             }
-        })
-
-        // let data = this.state.option;
-        
-        // data.push(option); 
-        // this.setState({
-        //     option: data
-        // })     
-        
+        })        
     }
 
     handleRemove(itemID){
-        // console.log(this.state.option);
-        // let data = this.state.option;
-        // let updatedOption = data.filter((value,index)=>{            
-        //     return itemID !== index
-        // });        
-        // this.setState({
-        //     option: updatedOption
-        // })
-
+        let url = 'http://localhost:3000/api/'+itemID;
         let Data = [];
-        axios.delete('http://localhost/3000/api/'+itemID)
+        axios.delete(url)
         .then((res)=>{
-            console.log(res);            
+            this.handleData();           
         })        
         .catch((error) => {
             console.log(error);
@@ -68,23 +55,23 @@ export default class TodoList extends React.Component{
         let Data = [];
         axios.get('http://localhost:3000/api/')
         .then((res) => {
+            // console.log(res.data);            
             res.data.map((value, i)=>{
-                Data.push(value.item);
+                Data.push(value);
             })  
             this.setState({option: Data})
         })
         .catch((error) => {
             console.log(error);
-        });  
-        // console.log(Data);
+        });
     }
 
     render(){               
         return (
             <div className="list-group">
-                {this.state.option.map((value, id)=>{
+                {this.state.option && this.state.option.map((value, id)=>{
                     return (
-                        <TodoItem itemID={id} key={id} item={value} handleRemove={this.handleRemove}/>
+                        <TodoItem itemID={value._id} key={id} item={value.item} handleRemove={this.handleRemove}/>
                     )
                 })}
                 <TodoForm kbb="hey"  onSubmitForm={this.onSubmitForm}/>
