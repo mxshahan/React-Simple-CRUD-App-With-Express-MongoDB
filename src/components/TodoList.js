@@ -12,14 +12,9 @@ export default class TodoList extends React.Component{
         this.onSubmitForm = this.onSubmitForm.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.handleData = this.handleData.bind(this);
-    }
-
-    
+    }    
 
     onSubmitForm(option){
-
-
-
         if(!option){
             return 'Please Enter a Valid Data'
         }
@@ -27,13 +22,6 @@ export default class TodoList extends React.Component{
             return 'Option is Already Exists'
         }
         
-        // let axiosConfig = {
-        //     headers: {
-        //         'access-control-allow-origin' : '*',
-        //         'content-type': 'application/json; charset=utf-8'
-    
-        //     }
-        // };
         axios.post('http://localhost:3000/api/', {item: option})
         .then((response)=>{
             console.log(response);            
@@ -45,7 +33,7 @@ export default class TodoList extends React.Component{
             } else {
                 this.errorStatus = error.response.data.message;
             }
-          })
+        })
 
         // let data = this.state.option;
         
