@@ -7,28 +7,52 @@ export default class TodoList extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            option: []
+            option: [this.handleData()]
         };
         this.onSubmitForm = this.onSubmitForm.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.handleData = this.handleData.bind(this);
     }
 
+    
 
     onSubmitForm(option){
+
+
+
         if(!option){
             return 'Please Enter a Valid Data'
         }
         else if(this.state.option.indexOf(option)>-1){
             return 'Option is Already Exists'
         }
-
-        let data = this.state.option;
         
-        data.push(option); 
-        this.setState({
-            option: data
-        })     
+        // let axiosConfig = {
+        //     headers: {
+        //         'access-control-allow-origin' : '*',
+        //         'content-type': 'application/json; charset=utf-8'
+    
+        //     }
+        // };
+        axios.post('http://localhost:3000/api/', {item: option})
+        .then((response)=>{
+            console.log(response);            
+        })
+        .catch(error => {
+            if (!error.response) {
+                // network error
+                this.errorStatus = 'Error: Network Error';
+            } else {
+                this.errorStatus = error.response.data.message;
+            }
+          })
+
+        // let data = this.state.option;
+        
+        // data.push(option); 
+        // this.setState({
+        //     option: data
+        // })     
         
     }
 
@@ -65,8 +89,6 @@ export default class TodoList extends React.Component{
             console.log(error);
         });  
         // console.log(Data);
-        
-        
     }
 
     render(){               

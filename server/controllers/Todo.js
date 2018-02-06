@@ -1,14 +1,12 @@
 const Todo = require('../model/Todo');
+const cors = require('cors');
 module.exports= {
     GetDataFrmServer : async (req,res)=>{
-        res.header("Access-Control-Allow-Origin", "*");
         const result = await Todo.find({});
         res.status(201).json(result);
     },
 
     AddSomethingNewOnDB : async (req,res)=>{
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         //console.log(req.body);
         const data  = new Todo(req.body);
         await data.save();

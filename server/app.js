@@ -7,6 +7,12 @@ const todoRouter = require('./routes/Todo');
 const cors = require('cors');
 
 const app = express();
+
+const corsConfig = {
+    origin: 'http://localhost:8080',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsConfig));
 app.use(bodyParser.json());
 //Helmet helps you secure your Express apps by
 // setting various HTTP headers. It's not a silver bullet, but it can help!
@@ -16,19 +22,6 @@ app.use(morgan('dev'));
 
 
 app.use('/api', todoRouter);
-// app.use('/todo/:id', require('./routes/Todo'))
-
-app.get('/api',(req, res, next)=>{
-    res.header("Access-Control-Allow-Origin", "http://localhost:8080");
-    next();
-})   
-
-
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "http://localhost:8080");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-// }); 
 
 
 //catch 404 Errors and forward them to error handeler

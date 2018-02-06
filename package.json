@@ -8,7 +8,7 @@
     "start": "concurrently \"npm run dev-server\" \"npm run dev\"",
     "server": "live-server public/",
     "build": "webpack",
-    "dev-server": "webpack-dev-server --watch",
+    "dev-server": "webpack -d && webpack-dev-server --content-base src/ --inline --hot --port 8080 --history-api-fallback --watch",
     "dev": "node server/app.js"
   },
   "dependencies": {
