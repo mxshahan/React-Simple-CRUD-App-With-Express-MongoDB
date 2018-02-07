@@ -4,6 +4,7 @@ class TodoItem extends React.Component{
     constructor(props){
         super(props)
         this.handleRemove = this.handleRemove.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
     }
     render(){
         return (
@@ -22,7 +23,11 @@ class TodoItem extends React.Component{
     }
 
     handleRemove(){
-        this.props.handleRemove(this.props.itemID)
+        this.props.handleRemove(this.props.itemID);
+    }
+
+    handleEdit(){
+        this.props.handleEdit(this.props.itemID);
     }
 }
 

@@ -12,6 +12,7 @@ export default class TodoList extends React.Component{
         this.onSubmitForm = this.onSubmitForm.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.handleData = this.handleData.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
     } 
 
     componentWillMount(){
@@ -20,7 +21,7 @@ export default class TodoList extends React.Component{
 
 
     onSubmitForm(option){
-        console.log(this.state.option)
+        // console.log(this.state.option)
         if(!option){
             return 'Please Enter a Valid Data'
         }
@@ -51,6 +52,12 @@ export default class TodoList extends React.Component{
         });  
     }
 
+
+    handleEdit(itemID){
+        console.log(itemID);
+        
+    }
+
     handleData(){
         let Data = [];
         axios.get('http://localhost:3000/api/')
@@ -66,12 +73,19 @@ export default class TodoList extends React.Component{
         });
     }
 
+
     render(){               
         return (
             <div className="list-group">
                 {this.state.option && this.state.option.map((value, id)=>{
                     return (
-                        <TodoItem itemID={value._id} key={id} item={value.item} handleRemove={this.handleRemove}/>
+                        <TodoItem 
+                            itemID={value._id} 
+                            key={id} 
+                            item={value.item} 
+                            handleRemove={this.handleRemove}
+                            handleEdit={this.handleEdit}
+                        />
                     )
                 })}
                 <TodoForm kbb="hey"  onSubmitForm={this.onSubmitForm}/>
