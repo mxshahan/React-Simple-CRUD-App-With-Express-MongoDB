@@ -53,8 +53,18 @@ export default class TodoList extends React.Component{
     }
 
 
-    handleEdit(itemID){
-        console.log(itemID);
+    handleEdit(item, itemID){
+        // console.log("Item: ", item, itemID);
+        let url = 'http://localhost:3000/api/'+itemID;
+        let Data = [];
+        axios.put(url, {item : item})
+        .then((res)=>{
+            console.log('Updated', res);
+            this.handleData();
+        })
+        .catch(err=>{
+            console.log('Error:', err);            
+        })
         
     }
 
@@ -76,7 +86,7 @@ export default class TodoList extends React.Component{
 
     render(){               
         return (
-            <div className="list-group">
+            <div className="list-group" ref="edit">
                 {this.state.option && this.state.option.map((value, id)=>{
                     return (
                         <TodoItem 
@@ -85,6 +95,8 @@ export default class TodoList extends React.Component{
                             item={value.item} 
                             handleRemove={this.handleRemove}
                             handleEdit={this.handleEdit}
+                            items={value}
+                            ref="handleEdit"
                         />
                     )
                 })}

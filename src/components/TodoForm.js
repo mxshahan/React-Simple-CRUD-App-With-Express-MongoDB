@@ -27,8 +27,6 @@ export default class TodoForm extends React.Component{
             <div>
                 {this.state.error && <p>{this.state.error}</p>}
                 <form 
-                    method="POST" 
-                    action="http://localhost:3000/" 
                     className="form-inline" 
                     onSubmit={this.onSubmitForm}>
                     <input type="text" name="todoItem" className="form-control mb-2"/>
