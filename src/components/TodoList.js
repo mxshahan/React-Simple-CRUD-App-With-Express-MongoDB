@@ -2,6 +2,7 @@ import React from 'react';
 import TodoForm from './TodoForm';
 import TodoItem from './TodoItem';
 import axios from 'axios';
+import io from 'socket.io-client';
 
 export default class TodoList extends React.Component{
     constructor(props){
@@ -15,9 +16,18 @@ export default class TodoList extends React.Component{
         this.handleEdit = this.handleEdit.bind(this);
     } 
 
-    componentWillMount(){
+    componentDidMount(){
         this.handleData();
+        this.socket = io('http://localhost:1200/');
+        this.socket.on('message', body=>{
+            console.log(body);
+        })
     }
+    
+    // componentDidUpdate(){
+    //     this.handleData();
+    //     console.log('updated/deleted');        
+    // }
 
 
     onSubmitForm(option){
@@ -26,7 +36,7 @@ export default class TodoList extends React.Component{
             return 'Please Enter a Valid Data'
         }
         
-        axios.post('http://localhost:3000/api/', {item: option})
+        axios.post('http://localhost:1200/api/', {item: option})
         .then((response)=>{
             this.handleData();          
         })
@@ -41,7 +51,7 @@ export default class TodoList extends React.Component{
     }
 
     handleRemove(itemID){
-        let url = 'http://localhost:3000/api/'+itemID;
+        let url = 'http://localhost:1200/api/'+itemID;
         let Data = [];
         axios.delete(url)
         .then((res)=>{
@@ -55,11 +65,11 @@ export default class TodoList extends React.Component{
 
     handleEdit(item, itemID){
         // console.log("Item: ", item, itemID);
-        let url = 'http://localhost:3000/api/'+itemID;
+        let url = 'http://localhost:1200/api/'+itemID;
         let Data = [];
         axios.put(url, {item : item})
         .then((res)=>{
-            console.log('Updated', res);
+            // console.log('Updated', res);
             this.handleData();
         })
         .catch(err=>{
@@ -69,14 +79,15 @@ export default class TodoList extends React.Component{
     }
 
     handleData(){
-        let Data = [];
-        axios.get('http://localhost:3000/api/')
+        // let Data = [];
+        axios.get('http://localhost:1200/api/')
         .then((res) => {
-            // console.log(res.data);            
-            res.data.map((value, i)=>{
-                Data.push(value);
-            })  
-            this.setState({option: Data})
+            console.log("Updated");            
+            // res.data.map((value, i)=>{
+            //     Data.push(value);
+            // })  
+            this.socket.emit('message', res.data);
+            // this.setState({option: res.data})
         })
         .catch((error) => {
             console.log(error);
@@ -84,7 +95,7 @@ export default class TodoList extends React.Component{
     }
 
 
-    render(){               
+    render(){ 
         return (
             <div className="list-group" ref="edit">
                 {this.state.option && this.state.option.map((value, id)=>{

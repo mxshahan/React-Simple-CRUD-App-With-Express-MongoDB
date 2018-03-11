@@ -11,9 +11,8 @@ class TodoItem extends React.Component{
             edit : true
         }
     }
-    render(){
-        console.log(this.state.edit);
-        
+    
+    render(){        
         return (
             <div>
                 {
